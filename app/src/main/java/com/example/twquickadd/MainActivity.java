@@ -1,5 +1,6 @@
 package com.example.twquickadd;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -8,10 +9,15 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.os.Handler;
 import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+
+import java.util.Timer;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,6 +36,20 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        // Auto open IME after delay so Activity is initialized
+        EditText textArea = findViewById(R.id.textArea);
+        textArea.requestFocus();
+        Handler timerHandler = new Handler();
+        Runnable timerRunnable = new Runnable() {
+            @Override
+            public void run() {
+                InputMethodManager manager =
+                        (InputMethodManager) textArea.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                manager.showSoftInput(textArea, 0);
+            }
+        };
+        timerHandler.postDelayed(timerRunnable, 500);
     }
 
     @Override

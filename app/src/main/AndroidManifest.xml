@@ -8,6 +8,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:windowSoftInputMode="stateVisible"
         android:theme="@style/Theme.TWQuickadd">
         <activity
             android:name=".MainActivity"
