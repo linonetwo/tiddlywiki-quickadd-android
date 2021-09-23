@@ -53,6 +53,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Bean bean = new Bean();
+                String content = textArea.getText().toString();
+                if (content.replaceAll(" +", "").length() == 0) {
+                    return;
+                }
                 bean.setContent(textArea.getText().toString());
                 mData.add(bean);
                 adaptor.notifyDataSetChanged();
