@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 
 import android.view.Menu;
@@ -40,14 +41,11 @@ public class MainActivity extends AppCompatActivity {
         // Auto open IME after delay so Activity is initialized
         EditText textArea = findViewById(R.id.textArea);
         textArea.requestFocus();
-        Handler timerHandler = new Handler();
-        Runnable timerRunnable = new Runnable() {
-            @Override
-            public void run() {
-                InputMethodManager manager =
-                        (InputMethodManager) textArea.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                manager.showSoftInput(textArea, 0);
-            }
+        Handler timerHandler = new Handler(Looper.getMainLooper());
+        Runnable timerRunnable = () -> {
+            InputMethodManager manager =
+                    (InputMethodManager) textArea.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            manager.showSoftInput(textArea, 0);
         };
         timerHandler.postDelayed(timerRunnable, 500);
     }
