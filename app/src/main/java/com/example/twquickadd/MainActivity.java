@@ -17,10 +17,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ListView;
 
-import java.util.Timer;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    private List<Bean> mData = new ArrayList<Bean>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,15 +32,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         // Auto open IME after delay so Activity is initialized
         EditText textArea = findViewById(R.id.textArea);
@@ -48,6 +43,24 @@ public class MainActivity extends AppCompatActivity {
             manager.showSoftInput(textArea, 0);
         };
         timerHandler.postDelayed(timerRunnable, 500);
+
+        ListView listView = findViewById(R.id.listView);
+        ListAdaptor adaptor = new ListAdaptor(mData, this);
+        listView.setAdapter(adaptor);
+        // handle add
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bean bean = new Bean();
+                bean.setContent(textArea.getText().toString());
+                mData.add(bean);
+                adaptor.notifyDataSetChanged();
+                Snackbar.make(view, "Added", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                textArea.setText("");
+            }
+        });
     }
 
     @Override
