@@ -2,6 +2,7 @@ package com.example.twquickadd;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -69,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
 
         // try sync to desktop
         startService(new Intent(this, SyncService.class));
+
+        SharedPreferences sp = getSharedPreferences("WikiServiceInfo", Context.MODE_PRIVATE);
+        sp.edit().putString("url", "192.xxx").apply();
     }
 
     @Override
