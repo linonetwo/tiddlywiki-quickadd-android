@@ -1,6 +1,7 @@
 package com.example.twquickadd;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -65,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
                 textArea.setText("");
             }
         });
+
+        // try sync to desktop
+        startService(new Intent(this, SyncService.class));
     }
 
     @Override
