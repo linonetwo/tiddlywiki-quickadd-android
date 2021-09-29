@@ -19,6 +19,7 @@ public class TiddlerViewModel extends AndroidViewModel {
     public TiddlerViewModel(@NonNull Application application) {
         super(application);
         mApplication = application;
+        mRepository = new TiddlerRepository(application);
         mTiddlersList = mRepository.tiddlersList;
     }
 
