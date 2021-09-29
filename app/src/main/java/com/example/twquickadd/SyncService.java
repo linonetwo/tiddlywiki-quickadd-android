@@ -18,7 +18,7 @@ public class SyncService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        mHttpClient = new Retrofit.Builder().build();
+        mHttpClient = new Retrofit.Builder().baseUrl("http://127.0.0.1/").build();
         mTiddlyWikiHttpService = mHttpClient.create(TiddlyWikiSyncService.class);
         return super.onStartCommand(intent, flags, startId);
     }
