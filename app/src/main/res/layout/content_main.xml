@@ -39,12 +39,12 @@
         android:fillViewport="true"
         >
 
-        <ListView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="500dp">
 
-        </ListView>
+        </androidx.recyclerview.widget.RecyclerView>
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

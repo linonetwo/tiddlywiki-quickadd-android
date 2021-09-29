@@ -5,11 +5,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import com.example.twquickadd.databinding.TiddlerViewModel;
+import com.example.twquickadd.room.Tiddler;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -26,7 +31,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private List<Bean> mData = new ArrayList<Bean>();
+    private List<Tiddler> mData = new ArrayList<Tiddler>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,21 +51,28 @@ public class MainActivity extends AppCompatActivity {
         };
         timerHandler.postDelayed(timerRunnable, 500);
 
-        ListView listView = findViewById(R.id.listView);
-        ListAdaptor adaptor = new ListAdaptor(mData, this);
+        // prepare list's ViewModel
+        TiddlerViewModel listViewModel = new ViewModelProvider(this).get(TiddlerViewModel.class);
+        // Render list
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        RecyclerView listView = findViewById(R.id.listView);
+        listView.setLayoutManager(linearLayoutManager);
+        TiddlerListAdaptor adaptor = new TiddlerListAdaptor(mData, this);
         listView.setAdapter(adaptor);
+        // connect viewModel with list
+        listViewModel.tiddlersList.observe(this, list -> adaptor.submitList(list));
         // handle add
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bean bean = new Bean();
+                Tiddler tiddler = new Tiddler();
                 String content = textArea.getText().toString();
                 if (content.replaceAll(" +", "").length() == 0) {
                     return;
                 }
-                bean.setContent(textArea.getText().toString());
-                mData.add(bean);
+                tiddler.setContent(textArea.getText().toString());
+                mData.add(tiddler);
                 adaptor.notifyDataSetChanged();
                 Snackbar.make(view, "Added", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
