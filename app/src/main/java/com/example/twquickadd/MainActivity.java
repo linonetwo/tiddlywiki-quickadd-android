@@ -31,7 +31,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private List<Tiddler> mData = new ArrayList<Tiddler>();
+    private List<Tiddler> mData = new ArrayList<>();
+    private TiddlerViewModel mListViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +52,8 @@ public class MainActivity extends AppCompatActivity {
         };
         timerHandler.postDelayed(timerRunnable, 500);
 
-        // prepare list's ViewModel
-        TiddlerViewModel listViewModel = new ViewModelProvider(this).get(TiddlerViewModel.class);
+        // prepare list's ViewModel, associate ViewModel with Activity
+        mListViewModel = new ViewModelProvider(this).get(TiddlerViewModel.class);
         // Render list
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         RecyclerView listView = findViewById(R.id.listView);
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         TiddlerListAdaptor adaptor = new TiddlerListAdaptor(mData, this);
         listView.setAdapter(adaptor);
         // connect viewModel with list
-        listViewModel.tiddlersList.observe(this, list -> adaptor.submitList(list));
+        mListViewModel.getAllTiddlers().observe(this, list -> adaptor.submitList(list));
         // handle add
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

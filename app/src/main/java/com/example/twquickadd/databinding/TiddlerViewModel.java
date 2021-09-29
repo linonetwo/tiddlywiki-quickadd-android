@@ -1,17 +1,28 @@
 package com.example.twquickadd.databinding;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.example.twquickadd.room.Tiddler;
-import com.example.twquickadd.room.TiddlerDAO;
 
 import java.util.List;
 
-public class TiddlerViewModel extends ViewModel {
-    public final LiveData<List<Tiddler>> tiddlersList;
 
-    public TiddlerViewModel(TiddlerDAO tiddlerDao) {
-        tiddlersList = tiddlerDao.getAllTiddlers();
+public class TiddlerViewModel extends AndroidViewModel {
+    private final LiveData<List<Tiddler>> mTiddlersList;
+    private TiddlerRepository mRepository;
+    private Application mApplication;
+
+    public TiddlerViewModel(@NonNull Application application) {
+        super(application);
+        mApplication = application;
+        mTiddlersList = mRepository.tiddlersList;
+    }
+
+    public LiveData<List<Tiddler>> getAllTiddlers() {
+        return mTiddlersList;
     }
 }

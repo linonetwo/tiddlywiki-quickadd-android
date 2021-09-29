@@ -49,6 +49,9 @@ public class TiddlerListAdaptor extends RecyclerView.Adapter<TiddlerListAdaptor.
         return 0;
     }
 
+    public void submitList(List<Tiddler> list) {
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView mListItemTextView;
 
