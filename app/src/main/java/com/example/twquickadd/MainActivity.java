@@ -30,8 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
-    private List<Tiddler> mData = new ArrayList<>();
     private TiddlerViewModel mListViewModel;
 
     @Override
@@ -58,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         RecyclerView listView = findViewById(R.id.listView);
         listView.setLayoutManager(linearLayoutManager);
-        TiddlerListAdaptor adaptor = new TiddlerListAdaptor(mData, this);
+        TiddlerListAdaptor adaptor = new TiddlerListAdaptor(new TiddlerListAdaptor.TiddlerDiff(), this);
         listView.setAdapter(adaptor);
         // connect viewModel with list
         mListViewModel.getAllTiddlers().observe(this, list -> adaptor.submitList(list));
@@ -73,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 tiddler.setContent(textArea.getText().toString());
-                mData.add(tiddler);
+                mListViewModel.addNewTiddler(tiddler);
                 adaptor.notifyDataSetChanged();
                 Snackbar.make(view, "Added", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();

@@ -1,24 +1,27 @@
 package com.example.twquickadd;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.twquickadd.room.Tiddler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TiddlerListAdaptor extends RecyclerView.Adapter<TiddlerListAdaptor.ViewHolder> {
 
-    private List<Tiddler> mDataList;
+    private List<Tiddler> mDataList = new ArrayList<Tiddler>();
     private Context mContext;
 
-    public TiddlerListAdaptor(List<Tiddler> mData, Context mContext) {
-        this.mDataList = mData;
+    public TiddlerListAdaptor(@NonNull DiffUtil.ItemCallback<Tiddler> diffCallback, Context mContext) {
+        super();
         this.mContext = mContext;
     }
 
@@ -50,6 +53,7 @@ public class TiddlerListAdaptor extends RecyclerView.Adapter<TiddlerListAdaptor.
     }
 
     public void submitList(List<Tiddler> list) {
+        mDataList = list;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -58,6 +62,19 @@ public class TiddlerListAdaptor extends RecyclerView.Adapter<TiddlerListAdaptor.
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mListItemTextView = itemView.findViewById(R.id.cache_text);
+        }
+    }
+
+    static class TiddlerDiff extends DiffUtil.ItemCallback<Tiddler> {
+
+        @Override
+        public boolean areItemsTheSame(@NonNull Tiddler oldItem, @NonNull Tiddler newItem) {
+            return oldItem.getTitle() == newItem.getTitle();
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull Tiddler oldItem, @NonNull Tiddler newItem) {
+            return oldItem.getContent().equals(newItem.getContent());
         }
     }
 }
