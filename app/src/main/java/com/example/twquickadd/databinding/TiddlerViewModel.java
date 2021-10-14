@@ -1,7 +1,6 @@
 package com.example.twquickadd.databinding;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -14,7 +13,7 @@ import java.util.List;
 
 
 public class TiddlerViewModel extends AndroidViewModel {
-    private final MutableLiveData<List<Tiddler>> mTiddlersList = new MutableLiveData(new ArrayList<Tiddler>());
+    private final MutableLiveData<List<Tiddler>> mTiddlersListLiveData = new MutableLiveData(new ArrayList<Tiddler>());
     private TiddlerRepository mRepository;
     private Application mApplication;
 
@@ -27,11 +26,11 @@ public class TiddlerViewModel extends AndroidViewModel {
     }
 
     public MutableLiveData<List<Tiddler>> getAllTiddlers() {
-        return mTiddlersList;
+        return mTiddlersListLiveData;
     }
     public void addNewTiddler(Tiddler tiddler) {
-        List<Tiddler> prevData = mTiddlersList.getValue();
+        List<Tiddler> prevData = mTiddlersListLiveData.getValue();
         prevData.add(tiddler);
-        mTiddlersList.setValue(prevData);
+        mTiddlersListLiveData.setValue(prevData);
     }
 }

@@ -25,16 +25,6 @@ public class TiddlerListAdaptor extends RecyclerView.Adapter<TiddlerListAdaptor.
         this.mContext = mContext;
     }
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public int getItemCount() {
-        return mDataList == null ? 0 : mDataList.size();
-    }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -44,16 +34,8 @@ public class TiddlerListAdaptor extends RecyclerView.Adapter<TiddlerListAdaptor.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Log.d("position onBindViewHolder", "position: " + position);
         holder.mListItemTextView.setText(mDataList.get(position).getContent());
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return 0;
-    }
-
-    public void submitList(List<Tiddler> list) {
-        mDataList = list;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -76,5 +58,25 @@ public class TiddlerListAdaptor extends RecyclerView.Adapter<TiddlerListAdaptor.
         public boolean areContentsTheSame(@NonNull Tiddler oldItem, @NonNull Tiddler newItem) {
             return oldItem.getContent().equals(newItem.getContent());
         }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return 0;
+    }
+
+    public void submitList(List<Tiddler> list) {
+        mDataList = list;
+    }
+
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemCount() {
+        return mDataList == null ? 0 : mDataList.size();
     }
 }

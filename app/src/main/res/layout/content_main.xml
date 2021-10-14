@@ -38,7 +38,6 @@
         android:layout_marginTop="120dp"
         android:fillViewport="true"
         >
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listView"
             android:layout_width="match_parent"

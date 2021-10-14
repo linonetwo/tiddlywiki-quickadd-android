@@ -59,7 +59,10 @@ public class MainActivity extends AppCompatActivity {
         TiddlerListAdaptor adaptor = new TiddlerListAdaptor(new TiddlerListAdaptor.TiddlerDiff(), this);
         listView.setAdapter(adaptor);
         // connect viewModel with list
-        mListViewModel.getAllTiddlers().observe(this, list -> adaptor.submitList(list));
+        mListViewModel.getAllTiddlers().observe(this, list -> {
+            adaptor.submitList(list);
+            adaptor.notifyDataSetChanged();
+        });
         // handle add
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 tiddler.setContent(textArea.getText().toString());
                 mListViewModel.addNewTiddler(tiddler);
-                adaptor.notifyDataSetChanged();
+
                 Snackbar.make(view, "Added", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                 textArea.setText("");
